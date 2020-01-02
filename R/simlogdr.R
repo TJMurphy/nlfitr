@@ -28,7 +28,19 @@ simlogdr <- function(x, logk, ylo, yhi, h, sd, reps) {
 
   ggplot2::ggplot(
     values,
-    ggplot2::aes(x, y))+
-    ggplot2::geom_point(size=1)+
-    ggplot2::labs(title="y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)")
+    ggplot2::aes(x, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)") +
+    ggplot2::geom_smooth(
+      method=stats::nls,
+      formula = "y ~ ylo + ((yhi - ylo)/(1 + 10^((logk - x)*h)))",
+      method.args = list(
+        start=c(yhi=yhi,
+                ylo=ylo,
+                logk=logk,
+                h=h)
+      ),
+      se=F,
+      color="blue"
+    )
 }
