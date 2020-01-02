@@ -1,11 +1,19 @@
 Package: nlfitr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Fitting models to nonlinear data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R:
+    person("TJ", "Murphy", email = "medtjm@emory.edu", role = c("aut", "cre"))
+Maintainer: TJ Murphy <medtjm@emory.edu>
+Description: Nonlinear regression of biological data involves choosing a model
+to fit the data while providing initial estimtes of the model's parameters. 
+Regression optimizes the model fit by iteratively improving these parameter 
+estimates. This package simplifies nlme-based nonlinear regression in R by 
+providing several functions with pre-specified model formulas and intuitive 
+parameter values. These functions focus on common hyperbolic stimulus-response 
+(dose-response, binding) and exponential (growth, decay) phenomena of 
+biological systems. Each model has a companion function for simulating 
+responses.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
