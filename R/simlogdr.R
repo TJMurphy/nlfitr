@@ -1,23 +1,27 @@
 #' Simulate log dose-response
 #'
-#' Creates and ggplots simulated replicate dose-response data with random replicate error based on a log scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=logx^h/(logx^h+logk^h), where ymax = yhi - ylo.
+#' Creates and ggplots replicate dose-response data with random normal error based on a log scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=logx^h/(logx^h+logk^h), where ymax = yhi - ylo.
 #'
 #' @param x A vector of log scale values; usually log10 or log2 dose or concentration units.
-#' @param logk The value of x in log units that yields y/ymax = 0.5; usually ED50 or EC50.
-#' @param ylo The minimum expected y value, in response units.
+#' @param logk The value of x in log units that yields y/ymax = 0.5; usually EC50 or ED50.
+#' @param ylo The lowest expected y value, in response units.
 #' @param yhi The highest expected y value, in response units.
-#' @param h The Hill slope; h > 1 is steeper, h < 1 is shallower.
-#' @param sd Standard deviation of residual error.
-#' @param reps Integer value for number of replicate values.
+#' @param h The Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.
+#' @param sd Standard deviation of residual error, in response units.
+#' @param reps Integer value for number of replicates.
 #'
 #' @return ggplot
 #' @export
 #'
 #' @examples
-#' sim <- simlogdr(x = c(-10, -9, -8, -7, -6),
+#' simUp <- simlogdr(x = c(-10, -9, -8, -7, -6),
 #'                logk = -8, ylo = 300, yhi = 3000,
-#'                h = 1.8, sd = 100, reps = 3); sim
-#' sim$data
+#'                h = 1.0, sd = 100, reps = 5); simUp
+#' simUp$data
+#'
+#' simDown <- simlogdr(x = c(-10, -9, -8, -7, -6),
+#'                logk = -8, ylo = 300, yhi = 3000,
+#'                h = -1.0, sd = 100, reps = 5); simDown
 #'
 #'
 simlogdr <- function(x, logk, ylo, yhi, h, sd, reps) {

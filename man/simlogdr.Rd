@@ -9,29 +9,33 @@ simlogdr(x, logk, ylo, yhi, h, sd, reps)
 \arguments{
 \item{x}{A vector of log scale values; usually log10 or log2 dose or concentration units.}
 
-\item{logk}{The value of x in log units that yields y/ymax = 0.5; usually ED50 or EC50.}
+\item{logk}{The value of x in log units that yields y/ymax = 0.5; usually EC50 or ED50.}
 
-\item{ylo}{The minimum expected y value, in response units.}
+\item{ylo}{The lowest expected y value, in response units.}
 
 \item{yhi}{The highest expected y value, in response units.}
 
-\item{h}{The Hill slope; h > 1 is steeper, h < 1 is shallower.}
+\item{h}{The Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
 
-\item{sd}{Standard deviation of residual error.}
+\item{sd}{Standard deviation of residual error, in response units.}
 
-\item{reps}{Integer value for number of replicate values.}
+\item{reps}{Integer value for number of replicates.}
 }
 \value{
 ggplot
 }
 \description{
-Creates and ggplots simulated replicate dose-response data with random replicate error based on a log scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=logx^h/(logx^h+logk^h), where ymax = yhi - ylo.
+Creates and ggplots replicate dose-response data with random normal error based on a log scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=logx^h/(logx^h+logk^h), where ymax = yhi - ylo.
 }
 \examples{
-sim <- simlogdr(x = c(-10, -9, -8, -7, -6),
+simUp <- simlogdr(x = c(-10, -9, -8, -7, -6),
                logk = -8, ylo = 300, yhi = 3000,
-               h = 1.8, sd = 100, reps = 3); sim
-sim$data
+               h = 1.0, sd = 100, reps = 5); simUp
+simUp$data
+
+simDown <- simlogdr(x = c(-10, -9, -8, -7, -6),
+               logk = -8, ylo = 300, yhi = 3000,
+               h = -1.0, sd = 100, reps = 5); simDown
 
 
 }
