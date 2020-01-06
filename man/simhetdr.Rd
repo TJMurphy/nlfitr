@@ -4,14 +4,45 @@
 \alias{simhetdr}
 \title{Simulate nonlinear heteroscedastic dose-response data}
 \usage{
-simhetdr(x, k, ylo, yhi, h, sd, ex, reps, log = F)
+simhetdr(x, k, ylo, yhi, h, sd, e, reps, log = F)
 }
 \arguments{
-\item{log}{}
+\item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration.}
+
+\item{k}{the value of x that yields y/ymax = 0.5, usually EC50 or ED50.}
+
+\item{ylo}{the lowest expected y value, in response units.}
+
+\item{yhi}{the highest expected y value, in response units.}
+
+\item{h}{the Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
+
+\item{sd}{the standard deviation of residual error, in response units.}
+
+\item{e}{a numeric value used as an exponent to simulate heteroscedastic standard deviations (sdh): sdh=sd+sqrt(x^e)}
+
+\item{reps}{an integer value for number of replicates}
+
+\item{log}{logical value indicating x-axis scale for plot. Default is FALSE. If TRUE, the x values are transformed using a log10 function for a log plot.}
 }
 \value{
-
+ggplot, data
 }
 \description{
-A sandbox to simulate data
+A sandbox to simulate random heteroscedastic response data, for variances that grow as x increases. Enter a linear scaled predictor variable and additional parameter arguments, including e for the variance term. Data generating formula is derived from the general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen. Just re-simulate or modify parameters.
+}
+\examples{
+
+# this will work: x = c(1, 3, 10, 30, ...)
+# this will not work: x = c(1e-9, 3e-9, 10e-9, 30e-9, ...)
+# this will not work: x = c(-9, -8.523, -8, -7.523, ...)
+
+dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
+
+hetdat <- simhetdr(dose, k = 35, ylo = 100, yhi = 1000,
+h = 1.5, sd = 30, e = 1.5, reps = 5, log = TRUE ); hetdat
+
+hetdat$data
+
+
 }
