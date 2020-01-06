@@ -2,40 +2,47 @@
 % Please edit documentation in R/simlindr.R
 \name{simlindr}
 \alias{simlindr}
-\title{Simulate dose-response}
+\title{Simulate dose-response data}
 \usage{
 simlindr(x, k, ylo, yhi, h, sd, reps)
 }
 \arguments{
-\item{x}{A vector of linear scale values, usually dose or concentration..}
+\item{x}{a vector of linear scale values, usually dose or concentration.}
 
-\item{k}{The value of x that yields y/ymax = 0.5, usually EC50 or ED50}
+\item{k}{the value of x that yields y/ymax = 0.5, usually EC50 or ED50}
 
-\item{ylo}{The lowest expected y value, in response units.}
+\item{ylo}{the lowest expected y value, in response units.}
 
-\item{yhi}{The highest expected y value, in response units.}
+\item{yhi}{the highest expected y value, in response units.}
 
-\item{h}{The Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
+\item{h}{the Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
 
-\item{sd}{Standard deviation of residual error, in response units.}
+\item{sd}{the standard deviation of residual error, in response units.}
 
-\item{reps}{Integer value for number of replicates.}
+\item{reps}{an integer value for number of replicates.}
 }
 \value{
-ggplot
+ggplot, data
 }
 \description{
-Creates and ggplots replicate dose-response data with random normal error based on a linear scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=logx^h/(logx^h+logk^h), where ymax = yhi - ylo.
+A sandbox to create and plot replicate dose-response data with random normal error. Enter a linear scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
 }
 \examples{
+
+# example of x-axis units in nM
+
 Up <- simlindr(x = c(1, 3, 30, 100, 300), k = 30,
 ylo = 300, yhi = 3000,
 h = 1.0,
 sd = 100, reps = 5); Up
 
+# use data for other purposes
+
 Up$data
 
-Down <- simlindr(x = c(1, 3, 30, 100, 300), k = 30,
+# negative h values simulate downward sloping response
+conc <- c(1e-9, 3e-9, 1e-8, 3e-8, 1e-7, 3e-7)
+Down <- simlindr(x = conc, k = 30,
 ylo = 300, yhi = 3000,
 h = -1.0,
 sd = 100, reps = 5); Down
