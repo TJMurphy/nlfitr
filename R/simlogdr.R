@@ -1,9 +1,9 @@
 #' Simulate log dose-response data
 #'
-#' A sandbox to creates and plot replicate log dose-response data with random normal error. Enter a log scaled predictor variable and values for additional model parameter arguments. The nonlinear model formula is derived from the general hyperbolic stimulus-response function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
+#' A sandbox to create and plot replicate response data with random normal error on a log scale. Enter a log scaled predictor variable and values for additional model parameter arguments. The nonlinear model formula is derived from the general hyperbolic stimulus-response function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
 #'
 #' @param x a vector of log scale values; usually log10 or log2 dose or concentration units.
-#' @param logk the value of x in log units that yields y/ymax = 0.5; usually EC50 or ED50.
+#' @param logk the value of x in log units that yields y/ymax = 0.5; usually logEC50 or logED50.
 #' @param ylo the lowest expected y value, in response units.
 #' @param yhi the highest expected y value, in response units.
 #' @param h the Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Provide negative value for downward sloping response.
