@@ -4,10 +4,10 @@
 \alias{simhetdr}
 \title{Simulate nonlinear heteroscedastic dose-response data}
 \usage{
-simhetdr(x, k, ylo, yhi, h, sd, e, reps, log = F)
+simhetdr(x, k, ylo, yhi, h, cv, reps, weight = F, log = F)
 }
 \arguments{
-\item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration.}
+\item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration, but can represent any stimulus.}
 
 \item{k}{the value of x that yields y/ymax = 0.5, usually EC50 or ED50.}
 
@@ -17,30 +17,31 @@ simhetdr(x, k, ylo, yhi, h, sd, e, reps, log = F)
 
 \item{h}{the Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
 
-\item{sd}{the standard deviation of residual error, in response units.}
-
-\item{e}{a numeric value used as an exponent to simulate heteroscedastic standard deviations (sdh): sdh=sd+sqrt(x^e)}
+\item{cv}{the coefficient of variation for y replicates.}
 
 \item{reps}{an integer value for number of replicates}
 
-\item{log}{logical value indicating x-axis scale for plot. Default is FALSE. If TRUE, the x values are transformed using a log10 function for a log plot.}
+\item{weight}{logical value indicating y scale weighting. Default is FALSE. If TRUE, curve is fit using relative (1/y^2) weighting.}
+
+\item{log}{logical value. Default is FALSE. If TRUE, linear x values are transformed using a log10 function for plotting. Only for visual aesthetic.}
 }
 \value{
 ggplot, data
 }
 \description{
-A sandbox to simulate random heteroscedastic response data, for variances that grow as x increases. Enter a linear scaled predictor variable and additional parameter arguments, including e for the variance term. Data generating formula is derived from the general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen. Just re-simulate or modify parameters.
+A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the nonlinear model using a constant coefficeint of variation (cv). The data generating formula is derived from the general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot geom_smooth fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
 }
 \examples{
 
-# this will work: x = c(1, 3, 10, 30, ...)
-# this will not work: x = c(1e-9, 3e-9, 10e-9, 30e-9, ...)
-# this will not work: x = c(-9, -8.523, -8, -7.523, ...)
+# exponential or log-transformed x scale values will not work
+# do not use x = c(1e-9, 3e-9, ...) or c(-9, -8.523, ...)
 
 dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
 
+set.seed(2345)
+
 hetdat <- simhetdr(dose, k = 35, ylo = 100, yhi = 1000,
-h = 1.5, sd = 30, e = 1.5, reps = 5, log = TRUE ); hetdat
+h = 1.0, cv = 0.10, reps = 5, weight=TRUE, log = TRUE ); hetdat
 
 hetdat$data
 
