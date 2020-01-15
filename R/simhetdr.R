@@ -1,6 +1,6 @@
 #' Simulate nonlinear heteroscedastic dose-response data
 #'
-#' A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the nonlinear model using a constant coefficeint of variation (cv). The data generating formula is derived from the general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot geom_smooth fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
+#' A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the model using a constant coefficeint of variation (cv). The data generating formula is derived from the general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot  fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
 #'
 #' @param x a vector of non-exponential linear scale values, usually representing dose or concentration, but can represent any stimulus.
 #' @param k the value of x that yields y/ymax = 0.5, usually EC50 or ED50.
@@ -17,7 +17,7 @@
 #'
 #' @examples
 #'
-#' # exponential or log-transformed x scale values will not work
+#' # Note: exponential or log-transformed x scale values will not work
 #' # do not use x = c(1e-9, 3e-9, ...) or c(-9, -8.523, ...)
 #'
 #' dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
