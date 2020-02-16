@@ -232,7 +232,7 @@ simbindone <- function(x, bmax, kd, cv, reps, log=F) {
 }
 
 simbindone(x, bmax, kd, 0.01, 5, log = F)
-simbindone(x, bmax, kd, 0.01, 5, log = T)
+simbindone(x, bmax, kd, 0.01, 5, log = T) #This does not work. 
 
 ```
 
@@ -273,8 +273,9 @@ simbindone <- function(x, bmax, kd, cv, reps, log=F) {
     if (log) {
       ggplot2::geom_smooth(
         method = stats::loess,
-         formula = "y ~ x",
-          color = "blue")
+        formula = "y ~ x",
+        color = "blue",
+        se = F)
     } else {
       ggplot2::geom_smooth(
         method=minpack.lm::nlsLM,
@@ -289,6 +290,6 @@ simbindone <- function(x, bmax, kd, cv, reps, log=F) {
 }
 
 simbindone(x, bmax, kd, 0.01, 5, log = F)
-simbindone(x, bmax, kd, 0.01, 5, log = T)
+simbindone(x, bmax, kd, 0.1, 5, log = T) #This looks really bad as you increase the cv
 
 ```
