@@ -7,11 +7,15 @@ output: html_document
 
 # Testing ground for all equations, etc.
 
-## Binding
+
 
 ```{r}
 library(tidyverse)
 ```
+
+## Binding
+
+### One site total binding
 
 How do I want to build out a binding function?
 
@@ -146,6 +150,10 @@ simbindone <- function(x, bmax, kd, cv, reps, log=F) {
 simbindone(x, bmax, kd, 0.01, 5, log = T) #so it still fails to plot the log = T line although my loop is in fact working and correctly predicting the nonlinear parameters despite log dosing
 ```
 
+Copied from https://stats.stackexchange.com/questions/160552/why-is-nls-giving-me-singular-gradient-matrix-at-initial-parameter-estimates 
+
+Used to determine parameters for nls functions
+
 ```{r}
 q24 <- read.table(text = "reductions  cost.per.car
     50  45
@@ -171,6 +179,7 @@ start
 
 ```
 
+Script for generating parameter values using nls to then plug in for the minpack.lm::nlsLM call
 
 ```{r}
 simbindone <- function(x, bmax, kd, cv, reps, log=F) {
@@ -227,3 +236,59 @@ simbindone(x, bmax, kd, 0.01, 5, log = T)
 
 ```
 
+Maybe we just need to keep it to  method = auto
+
+This works, but clearly this is imperfect
+
+```{r}
+simbindone <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      #print(model)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      #print(start)
+      model <- nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      #print(str(model))
+      here <- model$m$getPars()
+      print(here)
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    if (log) {
+      ggplot2::geom_smooth(
+        method = stats::loess,
+         formula = "y ~ x",
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~bmax*x/(x+kd)",
+        method.args = list(
+          start= c(bmax = bmax,
+            kd = kd)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+simbindone(x, bmax, kd, 0.01, 5, log = F)
+simbindone(x, bmax, kd, 0.01, 5, log = T)
+
+```
