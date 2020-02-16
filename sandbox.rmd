@@ -1,0 +1,229 @@
+---
+title: "sandbox"
+author: "Austin Nuckols"
+date: "2/16/2020"
+output: html_document
+---
+
+# Testing ground for all equations, etc.
+
+## Binding
+
+```{r}
+library(tidyverse)
+```
+
+How do I want to build out a binding function?
+
+Starting with One Site Total binding
+
+y = Bmax* X/(Kd + X) + NS*X + Background
+
+Bmax is the maximum specific binding in arbitrary units
+X is the concentration of ligand
+Kd is the equilibrium binding constant
+
+Let's make starting values to test with
+
+```{r}
+bmax <- 1000
+kd <- 50
+x <- c(10, 30, 100, 300, 1000)
+```
+
+
+```{r}
+simbindone <- function(x, bmax, kd) {
+  y = bmax*x/(kd + x)
+}
+
+(simbindone(c(10, 30, 100, 300), bmax, Kd))
+
+#simple function works
+```
+
+Let's leave out the error for now
+
+In the future, *make error a function of the binding where we expect ~10-20% of binding to be found nonspecifically*
+
+```{r}
+simbindone <- function(x, bmax, kd, cv, reps) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  return(values)
+}
+
+simbindone(x, bmax, kd, 0.1, 5) #this all works. great!
+```
+
+Test for full function?
+
+```{r}
+
+simbindone <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    ggplot2::geom_smooth(
+      method=minpack.lm::nlsLM,
+      formula = "y ~bmax*x/(x+kd)",
+      method.args = list(
+        start=c(bmax=bmax,
+                kd=kd)
+      ),
+      se=F,
+      color="blue"
+    )
+}
+
+simbindone(x, bmax, kd, 0.01, 5, log = T)
+simbindone(x, 1200, 50, 0.01, 5, log = T)
+
+```
+
+Let's work on the log error
+
+Pseudocode: after assigning values, derive a model using the log transform, then store the coefficients into start and import start in the nlsLM call
+
+```{r}
+simbindone <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      #print(model)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      #print(start)
+      model <- nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      #print(model)
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    ggplot2::geom_smooth(
+      method=minpack.lm::nlsLM,
+      formula = "y ~bmax*x/(x+kd)",
+      method.args = list(
+        start= if (log){
+          start} else {
+            c(bmax = bmax,
+          kd = kd)
+        }
+      ),
+      se=F,
+      color="blue"
+    )
+}
+
+simbindone(x, bmax, kd, 0.01, 5, log = T) #so it still fails to plot the log = T line although my loop is in fact working and correctly predicting the nonlinear parameters despite log dosing
+```
+
+```{r}
+q24 <- read.table(text = "reductions  cost.per.car
+    50  45
+    55  55
+    60  62
+    65  70
+    70  80
+    75  90
+    80  100
+    85  200
+    90  375
+    95  600
+    ",header = TRUE, sep = "")
+
+c.0 <- min(q24$cost.per.car) * 0.5
+model.0 <- lm(log(cost.per.car - c.0) ~ reductions, data=q24)
+start <- list(a=exp(coef(model.0)[1]), b=coef(model.0)[2], c=c.0)
+model <- nls(cost.per.car ~ a * exp(b * reductions) + c, data = q24, start = start)
+
+model.0
+model
+start
+
+```
+
+
+```{r}
+simbindone <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      #print(model)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      #print(start)
+      model <- nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      #print(str(model))
+      here <- model$m$getPars()
+      print(here)
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    if (log) {
+      ggplot2::geom_smooth(
+        method = minpack.lm::nlsLM,
+         formula = "y ~bmax*x/(x+kd)",
+          method.args = list(
+          start = here),
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~bmax*x/(x+kd)",
+        method.args = list(
+          start= c(bmax = bmax,
+            kd = kd)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+simbindone(x, bmax, kd, 0.01, 5, log = F)
+simbindone(x, bmax, kd, 0.01, 5, log = T)
+
+```
+
