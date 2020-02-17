@@ -293,3 +293,94 @@ simbindone(x, bmax, kd, 0.01, 5, log = F)
 simbindone(x, bmax, kd, 0.1, 5, log = T) #This looks really bad as you increase the cv
 
 ```
+
+Try with a stat_function call
+
+```{r}
+simbindone <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      #print(model)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      #print(start)
+      model <- nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      #print(str(model))
+      here <- model$m$getPars()
+      print(here)
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    if (log) {
+      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax*10^x/(kd + 10^x),
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~bmax*x/(x+kd)",
+        method.args = list(
+          start= c(bmax = bmax,
+            kd = kd)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+simbindone(x, bmax, kd, 0.01, 5, log = F)
+simbindone(x, bmax, kd, 0.1, 5, log = T) 
+simbindone(x, 10000, 200, 0.5, 5, log = T) # IT WORKS AND APPEARS TO BE CONSISTENT
+```
+
+Let's clean it up so that it only has the necessary components
+
+```{r}
+sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    if (log) {
+      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax*10^x/(kd + 10^x),
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~bmax*x/(x+kd)",
+        method.args = list(
+          start= c(bmax = bmax,
+            kd = kd)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+sim1sbind(x, bmax, kd, 0.1, 5, log = F)
+```
+
