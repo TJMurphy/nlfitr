@@ -34,6 +34,17 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
 
   values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
 
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      model <- stats::nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      bmax.var <- model$m$getPars()[1]
+      kd.var <- model$m$getPars()[2]
+      break
+    } else {break}
+  }
+
   ggplot2::ggplot(
     values,
     ggplot2::aes(x=if (log){
@@ -42,7 +53,7 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
     ggplot2::geom_point(size=2) +
     ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
     if (log) {
-      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax*10^x/(kd + 10^x),
+      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x),
                              color = "blue")
     } else {
       ggplot2::geom_smooth(

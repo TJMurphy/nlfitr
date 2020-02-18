@@ -9,7 +9,7 @@ output: html_document
 
 
 
-```{r}
+```{r message=FALSE}
 library(tidyverse)
 ```
 
@@ -382,5 +382,58 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
 }
 
 sim1sbind(x, bmax, kd, 0.1, 5, log = F)
+```
+
+Let's update this:
+
+right now, the stat_function call is just plotting an exact line for the input values of bmax and kd. It is not responding to the variability of the chosen points. 
+
+I can use the log-values work around to force nls to generate parameters, and then make the stat_function call graph those
+
+```{r}
+sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
+  
+  y = bmax*x/(kd + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      model <- nls(y ~ bmax * x/(kd + x), data = values, start = start)
+      bmax.var <- model$m$getPars()[1]
+      kd.var <- model$m$getPars()[2]
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
+    if (log) {
+      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x),
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~bmax*x/(x+kd)",
+        method.args = list(
+          start= c(bmax = bmax,
+            kd = kd)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+sim1sbind(x, bmax, kd, 0.1, 5, log = T) 
+sim1sbind(x, 10000, 200, 0.5, 5, log = T)
 ```
 
