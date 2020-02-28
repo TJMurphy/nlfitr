@@ -437,3 +437,87 @@ sim1sbind(x, bmax, kd, 0.1, 5, log = T)
 sim1sbind(x, 10000, 200, 0.5, 5, log = T)
 ```
 
+
+
+## Kinetics
+
+### Michaelis-menten equation - just to start
+
+So on Prism, they split this into 3 kinds of equations. They include just a regular mic-menten, a way to calculate turnover^, and a way to consider allosteric modulation. They're all the same equation, so I might as well wrap them into one
+
+y = Vmax * x^h/(Km^h + x)
+Vmax = Et * kcat
+
+Update: I am having trouble getting the function to return Vmax to me such that it can be used. It's made to 
+
+If h = 1, then there is no allosteric modulation, and curve is purely hyperbolic. If h > 1, then it becomes sigmoidal. If h = 1, then Et or kcat can be derived from Vmax by dividing Vmax by the other of those two parameters
+
+```{r}
+simmicmenten <- function(x, vmax, km, h = 1, cv, reps, log=F) {
+  
+  y = vmax*x^h/(km^h + x)
+  
+  values <- data.frame(x=rep(x, reps), y)
+  
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  
+  for (i in 1) {
+    if (log) {
+      model <- stats::lm(log(y) ~ log(x), data=values)
+      print(model)
+      start <- list(vmax=exp(stats::coef(model)[1]), km=exp(stats::coef(model))[2])
+      print(start)
+      model <- stats::nls(y ~ vmax * x^h/(km^h + x), data = values, start = start)
+      vmax.var <- model$m$getPars()[1]
+      km.var <- model$m$getPars()[2]
+      print(model)
+      break
+    } else {break}
+  }
+  
+  ggplot2::ggplot(
+    values,
+    ggplot2::aes(x=if (log){
+      log10(x)} else {
+        x}, y)) +
+    ggplot2::geom_point(size=2) +
+    ggplot2::labs(title="model: y = vmax*x^h/(km^h + x)") +
+    if (log) {
+      ggplot2::stat_function(geom = "smooth", fun = function(x) y = vmax.var*10^x^h/(km.var^h + 10^x),
+          color = "blue")
+    } else {
+      ggplot2::geom_smooth(
+        method=minpack.lm::nlsLM,
+        formula = "y ~vmax*x^h/(x+km^h)",
+        method.args = list(
+          start= c(vmax = vmax,
+            km = km,
+            h = h)
+        ),
+        se=F,
+        color="blue")
+      }
+}
+
+x <- c(10, 30, 100, 300, 1000, 3000, 10000, 30000)
+
+simmicmenten(x, bmax, kd, h=1, 0.1, 5, log = F) 
+simmicmenten(x, 10000, 200, 0.5, 5, h =1, log = T)
+simmicmenten(x, 10000, 100, h = 1.5, 0.1, 5, log = F)
+simmicmenten(x, 1000, 100, cv = 0.1, reps = 5)
+
+test <- simmicmenten(x, 10000, 100, h = 1.5, 0.1, 5, log = F)
+#test$mapping
+```
+
+```{r}
+#I'll write a function for fun below that's meant to calculate the Vmax (via average)
+snatch <- function(model) {
+  model$data %>% summarise(vmax = mean(
+    model$data %>% group_by(x) %>% filter(x[max(x) == T])
+  ))
+}
+
+snatch(test)
+```
+
