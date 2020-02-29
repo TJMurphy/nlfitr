@@ -40,7 +40,7 @@ vdat <- simmicmenten(dose, vmax = 1000, km = 50, cv = 0.10, reps = 5, h = 1, log
 
 vdat$data
 
-simmicmenten(dose, vmax = 10000, km = 100, cv = 0.25, reps = 10, h = 1.25, log = F)
+simmicmenten(dose, vmax = 10000, km = 100, cv = 0.25, reps = 10, h = 1.25, log = FALSE)
 
 
 }
