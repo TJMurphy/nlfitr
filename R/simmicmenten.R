@@ -26,7 +26,7 @@
 #'
 #' vdat$data
 #'
-#' simmicmenten(dose, vmax = 10000, km = 100, cv = 0.25, reps = 10, h = 1.25, log = F)
+#' simmicmenten(dose, vmax = 10000, km = 100, cv = 0.25, reps = 10, h = 1.25, log = FALSE)
 #'
 #'
 simmicmenten <- function(x, vmax, km, cv, reps, h = 1, log=F) {
