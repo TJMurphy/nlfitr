@@ -48,27 +48,30 @@ simmicmenten <- function(x, vmax, km, cv, reps, h = 1, log=F) {
     } else {break}
   }
 
+  logplot = function() {list(
+            ggplot2::stat_function(geom = "smooth", fun = function(x) y = vmax.var*10^x^h/(km.var^h + 10^x), color = "blue"),
+            ggplot2::labs(title="model: y=vmax*log10x^h/(log10x+log10km^h)"),
+            ggplot2::xlab("log10 x")
+            )
+    }
+
+  linplot = function() {list(
+            ggplot2::geom_smooth(method=minpack.lm::nlsLM, formula = "y ~vmax*x^h/(x+km^h)", method.args = list(start= c(vmax = vmax, km = km, h = h)), se=F,color="blue"),
+            ggplot2::labs(title="model: y=vmax*x^h/(x+km^h)"),
+            ggplot2::xlab("x")
+            )
+    }
+
   ggplot2::ggplot(
     values,
     ggplot2::aes(x=if (log){
       log10(x)} else {
         x}, y)) +
     ggplot2::geom_point(size=2) +
-    ggplot2::labs(title="model: y=vmax*x^h/(x+km^h)") +
     if (log) {
-      ggplot2::stat_function(geom = "smooth", fun = function(x) y = vmax.var*10^x^h/(km.var^h + 10^x),
-                             color = "blue")
+      logplot()
     } else {
-      ggplot2::geom_smooth(
-        method=minpack.lm::nlsLM,
-        formula = "y ~vmax*x^h/(x+km^h)",
-        method.args = list(
-          start= c(vmax = vmax,
-                   km = km,
-                   h = h)
-        ),
-        se=F,
-        color="blue")
+      linplot()
     }
 }
 
