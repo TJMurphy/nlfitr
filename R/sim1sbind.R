@@ -21,10 +21,10 @@
 #'
 #' set.seed(2345)
 #'
-#' binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = TRUE ); binddat
+#' binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = FALSE ); binddat
 #'
 #' binddat$data
-#'
+#' binddat$ggplot
 #'
 sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
 
@@ -45,7 +45,7 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
     } else {break}
   }
 
-  ggplot2::ggplot(
+  p = ggplot2::ggplot(
     values,
     ggplot2::aes(x=if (log){
       log10(x)} else {
@@ -63,16 +63,18 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
                    kd = kd)),
         se=F,
         color="blue")
-     }+
-    if (log) {
+     }
+    p2 = if (log) {
       ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)")
     } else {
       ggplot2::labs(title="model: y=bmax*x/(x+kd)")
-    }+
-    if (log) {
-      ggplot2::xlab(x = "log10 x")
-    } else {
-      ggplot2::xlab(x = "x")
     }
+
+    p3 = if (log) {
+      ggplot2::xlab("log10 x")
+    } else {
+      ggplot2::xlab("x")
+    }
+    (ggplot = p + p2 + p3)
 }
 
