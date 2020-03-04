@@ -2,10 +2,10 @@
 #'
 #' A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the model using a constant coefficeint of variation (cv). The data generating formula is derived from the one-site total binding model: y=Bmax*x/(x+kd). Failure errors in the plot fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
 #'
-#' @param x a vector of non-exponential linear scale values, usually representing dose or concentration, but can represent any stimulus.
+#' @param x a vector of non-exponential linear scale values, usually representing dose or concentration of ligand
 #' @param bmax the measured value where the receptor population is completely saturated by ligand (i.e. maximum binding)
 #' @param kd the value of x that yields y/Bmax = 0.5 (the equilibrium binding constant)
-#' @param cv the coefficient of variation for y replicates.
+#' @param cv the coefficient of variation for y replicates
 #' @param reps an integer value for number of replicates
 #' @param log logical value. Default is FALSE. If TRUE, linear x values are transformed using a log10 function for plotting. Only for visual aesthetic.
 #'
