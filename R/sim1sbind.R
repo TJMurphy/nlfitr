@@ -24,7 +24,7 @@
 #' binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = FALSE ); binddat
 #'
 #' binddat$data
-#' binddat$ggplot
+#'
 #'
 sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
 
@@ -45,36 +45,30 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
     } else {break}
   }
 
-  p = ggplot2::ggplot(
+  logplot = function() {list(
+            ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x), color = "blue"),
+            ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)"),
+            ggplot2::xlab("log10 x")
+            )
+    }
+
+  linplot = function() {list(
+            ggplot2::geom_smooth(method=minpack.lm::nlsLM, formula = "y ~bmax*x/(x+kd)", method.args = list(start= c(bmax = bmax,kd = kd)), se=F,color="blue"),
+            ggplot2::labs(title="model: y=bmax*x/(x+kd)"),
+            ggplot2::xlab("x")
+            )
+    }
+
+  ggplot2::ggplot(
     values,
     ggplot2::aes(x=if (log){
       log10(x)} else {
         x}, y)) +
     ggplot2::geom_point(size=2) +
     if (log) {
-      ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x),
-                             color = "blue")
+      logplot()
      } else {
-      ggplot2::geom_smooth(
-        method=minpack.lm::nlsLM,
-        formula = "y ~bmax*x/(x+kd)",
-        method.args = list(
-          start= c(bmax = bmax,
-                   kd = kd)),
-        se=F,
-        color="blue")
+      linplot()
      }
-    p2 = if (log) {
-      ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)")
-    } else {
-      ggplot2::labs(title="model: y=bmax*x/(x+kd)")
-    }
-
-    p3 = if (log) {
-      ggplot2::xlab("log10 x")
-    } else {
-      ggplot2::xlab("x")
-    }
-    (ggplot = p + p2 + p3)
 }
 
