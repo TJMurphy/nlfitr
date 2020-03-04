@@ -1,4 +1,4 @@
-#' Simulate nonlinear ligand-receptor binding with one binding site
+#' Simulate one-site ligand receptor binding
 #'
 #' A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the model using a constant coefficeint of variation (cv). The data generating formula is derived from the one-site total binding model: y=Bmax*x/(x+kd). Failure errors in the plot fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
 #'
@@ -51,10 +51,11 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
       log10(x)} else {
         x}, y)) +
     ggplot2::geom_point(size=2) +
-    ggplot2::labs(title="model: y=bmax*x/(x+kd)") +
     if (log) {
       ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x),
-                             color = "blue")
+                             color = "blue")+
+      ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)")+
+      ggplot2::xlab(x = "log10 x")
     } else {
       ggplot2::geom_smooth(
         method=minpack.lm::nlsLM,
@@ -64,6 +65,8 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
                    kd = kd)
         ),
         se=F,
-        color="blue")
+        color="blue")+
+      ggplot2::labs(title="model: y=bmax*x/(x+kd)")+
+      ggplot2::xlab(x = "x")
     }
 }
