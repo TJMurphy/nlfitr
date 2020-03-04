@@ -53,20 +53,26 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
     ggplot2::geom_point(size=2) +
     if (log) {
       ggplot2::stat_function(geom = "smooth", fun = function(x) y = bmax.var*10^x/(kd.var + 10^x),
-                             color = "blue")+
-      ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)")+
-      ggplot2::xlab(x = "log10 x")
-    } else {
+                             color = "blue")
+     } else {
       ggplot2::geom_smooth(
         method=minpack.lm::nlsLM,
         formula = "y ~bmax*x/(x+kd)",
         method.args = list(
           start= c(bmax = bmax,
-                   kd = kd)
-        ),
+                   kd = kd)),
         se=F,
-        color="blue")+
-      ggplot2::labs(title="model: y=bmax*x/(x+kd)")+
+        color="blue")
+     }+
+    if (log) {
+      ggplot2::labs(title="model: y=bmax*log10x/(log10x+log10kd)")
+    } else {
+      ggplot2::labs(title="model: y=bmax*x/(x+kd)")
+    }+
+    if (log) {
+      ggplot2::xlab(x = "log10 x")
+    } else {
       ggplot2::xlab(x = "x")
     }
 }
+
