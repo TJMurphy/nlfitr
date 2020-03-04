@@ -2,30 +2,18 @@
 % Please edit documentation in R/sim1sbind.R
 \name{sim1sbind}
 \alias{sim1sbind}
-<<<<<<< HEAD
-\title{Simulate nonlinear ligand-receptor binding with one binding site}
-=======
 \title{Simulate one-site ligand receptor binding}
->>>>>>> 19c7417782e3ee22b05f83970e578f3204b61e33
 \usage{
 sim1sbind(x, bmax, kd, cv, reps, log = F)
 }
 \arguments{
-<<<<<<< HEAD
-\item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration, but can represent any stimulus.}
-=======
 \item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration of ligand}
->>>>>>> 19c7417782e3ee22b05f83970e578f3204b61e33
 
 \item{bmax}{the measured value where the receptor population is completely saturated by ligand (i.e. maximum binding)}
 
 \item{kd}{the value of x that yields y/Bmax = 0.5 (the equilibrium binding constant)}
 
-<<<<<<< HEAD
-\item{cv}{the coefficient of variation for y replicates.}
-=======
 \item{cv}{the coefficient of variation for y replicates}
->>>>>>> 19c7417782e3ee22b05f83970e578f3204b61e33
 
 \item{reps}{an integer value for number of replicates}
 
@@ -46,11 +34,7 @@ dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
 
 set.seed(2345)
 
-<<<<<<< HEAD
-binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = TRUE ); binddat
-=======
 binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = FALSE ); binddat
->>>>>>> 19c7417782e3ee22b05f83970e578f3204b61e33
 
 binddat$data
 
