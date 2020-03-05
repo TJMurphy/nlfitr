@@ -15,7 +15,8 @@
 #' @examples
 #'
 #' dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
-#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1, 1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in nM units
+#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1,
+#'              1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in nM units
 #'
 #' set.seed(2345)
 #'
