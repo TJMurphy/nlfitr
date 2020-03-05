@@ -7,7 +7,7 @@
 sim1sbind(x, bmax, kd, cv, reps, log = F)
 }
 \arguments{
-\item{x}{a vector of non-exponential linear scale values, usually representing dose or concentration of ligand}
+\item{x}{a vector representing dose or concentration of ligand (exponential or linear values)}
 
 \item{bmax}{the measured value where the receptor population is completely saturated by ligand (i.e. maximum binding)}
 
@@ -27,16 +27,17 @@ A sandbox to simulate and visualize random normal heteroscedastic response data.
 }
 \examples{
 
-# Note: exponential or log-transformed x scale values will not work
-# do not use x = c(1e-9, 3e-9, ...) or c(-9, -8.523, ...)
-
 dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
+logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1,
+             1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in nM units
 
 set.seed(2345)
 
 binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = FALSE ); binddat
 
-binddat$data
+binddat$data #extract the data frame containing x and cv-modified y values
+
+sim1sbind(logdose, bmax = 10000, kd = 100, cv = 0.20, reps = 5, log = TRUE)
 
 
 }
