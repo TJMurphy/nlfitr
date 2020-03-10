@@ -19,8 +19,7 @@
 #' # do not use c(-9, -8.523, ...)
 #'
 #' dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
-#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1,
-#'              1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in M units
+#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1e0, 3e0) # eg, in M units
 #'
 #' set.seed(2345)
 #'
@@ -31,7 +30,7 @@
 #' # Note: Exponential values (i.e. 1e-3, etc.) will produce errors for h !=1. Use integers if you want log = T and h != 1
 #'
 #' simmicmenten(dose, vmax = 10000, km = 100, cv = 0.25, reps = 10, h = 2, log = TRUE)
-#' simmicmenten(logdose, vmax = 1000, km = 2, cv = 0.1, reps = 5, h = 1, log = TRUE)
+#' simmicmenten(logdose, vmax = 1000, km = 2e-2, cv = 0.1, reps = 5, h = 1, log = TRUE)
 #'
 #'
 simmicmenten <- function(x, vmax, km, cv, reps, h = 1, log=F) {
@@ -44,8 +43,8 @@ simmicmenten <- function(x, vmax, km, cv, reps, h = 1, log=F) {
 
   for (i in 1) {
     if (log) {
-      model <- stats::lm(log(y) ~ log(x), data=values)
-      start <- list(vmax=exp(stats::coef(model)[1]), km=exp(stats::coef(model))[2])
+      model <- stats::lm(log10(y) ~ log10(x), data=values)
+      start <- list(vmax=10^(stats::coef(model)[1]), km=10^(stats::coef(model))[2])
       model <- stats::nls(y ~ vmax * x^h/(km^h + x), data = values, start = start)
       vmax.var <- model$m$getPars()[1]
       km.var <- model$m$getPars()[2]
