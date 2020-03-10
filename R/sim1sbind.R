@@ -15,8 +15,7 @@
 #' @examples
 #'
 #' dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
-#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1,
-#'              1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in nM units
+#' logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1e0, 3e0) # eg, in nM units
 #'
 #' set.seed(2345)
 #'
@@ -24,7 +23,7 @@
 #'
 #' binddat$data #extract the data frame containing x and cv-modified y values
 #'
-#' sim1sbind(logdose, bmax = 10000, kd = 100, cv = 0.20, reps = 5, log = TRUE)
+#' sim1sbind(logdose, bmax = 10000, kd = 5e-2, cv = 0.20, reps = 5, log = TRUE)
 #'
 #'
 sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
@@ -37,8 +36,8 @@ sim1sbind <- function(x, bmax, kd, cv, reps, log=F) {
 
   for (i in 1) {
     if (log) {
-      model <- stats::lm(log(y) ~ log(x), data=values)
-      start <- list(bmax=exp(stats::coef(model)[1]), kd=exp(stats::coef(model))[2])
+      model <- stats::lm(log10(y) ~ log10(x), data=values)
+      start <- list(bmax=10^(stats::coef(model)[1]), kd=10^(stats::coef(model))[2])
       model <- minpack.lm::nlsLM(y ~ bmax * x/(kd + x), data = values, start = start)
       bmax.var <- model$m$getPars()[1]
       kd.var <- model$m$getPars()[2]
