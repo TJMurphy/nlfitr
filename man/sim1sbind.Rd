@@ -28,8 +28,7 @@ A sandbox to simulate and visualize random normal heteroscedastic response data.
 \examples{
 
 dose <- c(1, 3, 10, 30, 100, 300) # eg, in nM units
-logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1, 3, 1e1, 3e1,
-             1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5, 3e5) # eg, in nM units
+logdose <- c(1e-3, 3e-3, 1e-2, 3e-2, 1e-1, 3e-1, 1e0, 3e0) # eg, in nM units
 
 set.seed(2345)
 
@@ -37,7 +36,7 @@ binddat <- sim1sbind(dose, bmax = 1000, kd = 50, cv = 0.10, reps = 5, log = FALS
 
 binddat$data #extract the data frame containing x and cv-modified y values
 
-sim1sbind(logdose, bmax = 10000, kd = 100, cv = 0.20, reps = 5, log = TRUE)
+sim1sbind(logdose, bmax = 10000, kd = 5e-2, cv = 0.20, reps = 5, log = TRUE)
 
 
 }

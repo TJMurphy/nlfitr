@@ -7,7 +7,7 @@ fitlindr <- function(x, y, data, k, ylo, yhi, h, weigh){
   y <- eval(substitute(y), data)
   weight <- 1/y^2
 
-  data <- bind_cols(data, weight=weight)
+  data <- dplyr::bind_cols(data, weight=weight)
 
   if (weigh) {
 
