@@ -2,7 +2,7 @@ Package: nlfitr
 Type: Package
 Title: Fitting models to nonlinear data
 Version: 0.1.0
-Author: TJ Murphy <medtjm@emory.edu>
+Author: TJ Murphy <medtjm@emory.edu>, Jessica Hoffman<foo@gmail.com, Austin Nuckols<bar@gmail.com>
 Maintainer: TJ Murphy <medtjm@emory.edu>
 Description: 
     This package simplifies nonlinear regression in R by providing several functions with pre-specified nonlinear model formulas. The fitting input parameter syntax is intuitive. 
