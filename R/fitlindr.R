@@ -20,7 +20,7 @@ fitlindr <- function(x, y, data, k, ylo, yhi, h, weigh){
 
   x <- substitute(x)
 
-  formula <- paste(y, "~ ylo+(yhi-ylo)*", x, "^h/(", x,"^h+k^h)", sep="")
+  formula <- paste(substitute(y), "~ ylo+(yhi-ylo)*", x, "^h/(", x,"^h+k^h)", sep="")
 
   y <- eval(substitute(y), data)
   weight <- 1/y^2
