@@ -1,5 +1,6 @@
 #' Fit one phase exponential decay data.
-#' Based on a model
+#'
+#' Based on a two phase exponential decay model `y=range1*exp(-k1*x)+range2*exp(-k2*x)`
 #'
 #' @param x is a vector of non-exponential linear scale values representing time.
 #' @param y is a vector of y values for x, usually responses.
@@ -14,7 +15,7 @@
 #' @param range2 a single value for the range of y in the second phase of decay, in y units.
 #' @param weigh chooses regression weighting by 1/y^2. Default = FALSE.
 #'
-#' @return model
+#' @return nls
 #' @export
 #'
 #' @examples
