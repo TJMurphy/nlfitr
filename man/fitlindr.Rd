@@ -2,36 +2,38 @@
 % Please edit documentation in R/fitlindr.R
 \name{fitlindr}
 \alias{fitlindr}
-\title{Fit dose response when dose is linear scale.
-Based on a model}
+\title{Fit dose-response when dose is linear scale.}
 \usage{
 fitlindr(x, y, data, k, ylo, yhi, h, weigh)
 }
 \arguments{
-\item{x}{is a vector of linear scale values, usually dose or concentration.}
+\item{x}{a vector of linear scale values, usually dose or concentration.}
 
-\item{y}{is a vector of y values for x, usually responses.}
+\item{y}{a vector of y values for x, usually responses.}
 
-\item{data}{is a dataframe with x and y.}
+\item{data}{a dataframe with x and y.}
 
-\item{k}{the value of x that yields y/ymax = 0.5, usually ED50 or EC50.}
+\item{k}{estimates the value of x that yields y/ymax = 0.5, usually ED50 or EC50.}
 
-\item{ylo}{is the lowest asymptotic y value, in response units.}
+\item{ylo}{estimates the lowest asymptotic y value, in response units.}
 
-\item{yhi}{the highest asymptotic value, in response units.}
+\item{yhi}{estimates highest asymptotic value, in response units.}
 
 \item{h}{the Hill slope, a unitless slope factor; -1 > h > 1 is steeper, -1 < h < 1 is shallower. Use negative value for downward sloping response.}
 
 \item{weigh}{chooses regression weighting by 1/y^2. Default = FALSE.}
 }
 \value{
-model
+nls
 }
 \description{
-Fit dose response when dose is linear scale.
-Based on a model
+fitlindr uses the nlsLM function from the minpack.lm package to fit a
+model formula to nonlinear response data. The formula is based upon the
+general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
+k, ylo, yhi and h are start list parameters for nlsLM.
 }
 \examples{
-# fitlinder(x=PE, y=mN, data=aoc, k=100, ylo=0, yhi=50, h=1, weigh=T)
+## aorta contraction by phenylephrine doses
+fitlindr(x=nM_PE, y=mN, data=aoc, k=100, ylo=0, yhi=50, h=1, weigh=TRUE)
 
 }
