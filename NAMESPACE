@@ -2,6 +2,8 @@
 
 export(fitlindr)
 export(sim1sbind)
+export(simdecay1)
+export(simdecay2)
 export(simhetdr)
 export(simlindr)
 export(simlogdr)
