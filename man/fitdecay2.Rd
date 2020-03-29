@@ -2,8 +2,7 @@
 % Please edit documentation in R/fitdecay2.R
 \name{fitdecay2}
 \alias{fitdecay2}
-\title{Fit one phase exponential decay data.
-Based on a model}
+\title{Fit one phase exponential decay data.}
 \usage{
 fitdecay2(x, y, data, k1, k2, range1, range2, ylo, weigh)
 }
@@ -30,11 +29,10 @@ expressed in the same units as Y.}
 \item{weigh}{chooses regression weighting by 1/y^2. Default = FALSE.}
 }
 \value{
-model
+nls
 }
 \description{
-Fit one phase exponential decay data.
-Based on a model
+Based on a two phase exponential decay model `y=range1*exp(-k1*x)+range2*exp(-k2*x)`
 }
 \examples{
 # fitdecay2(x=Time, y=Response, data=decay2ex, k1 = 1.5, k2 = 0.2,
