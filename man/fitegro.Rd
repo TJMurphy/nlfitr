@@ -16,7 +16,7 @@ fitegro(x, y, data, k, ylo, weigh)
 \item{k}{A starting estimate for the rate constant, which has
 units of reciprocal x.}
 
-\item{ylo}{An stimate for the lowest value of y, or starting value.}
+\item{ylo}{An estimate for the lowest value of y, or starting value.}
 
 \item{weigh}{Chooses regression weighting by 1/y^2. Default = FALSE.}
 }

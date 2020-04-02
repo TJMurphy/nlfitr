@@ -7,7 +7,7 @@
 #' @param data A dataframe with the x and y variables.
 #' @param k A starting estimate for the rate constant, which has
 #' units of reciprocal x.
-#' @param ylo An stimate for the lowest value of y, or starting value.
+#' @param ylo An estimate for the lowest value of y, or starting value.
 #' @param weigh Chooses regression weighting by 1/y^2. Default = FALSE.
 #'
 #' @return nls
