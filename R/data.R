@@ -48,3 +48,17 @@
 "decay2ex"
 
 
+#' Exponential growth of bacteria
+#' @source Murphy lab
+#' @format A dataframe with 3 A600 measurements per time point:
+#'  \describe{
+#'  \item{min}{Units of time, minutes}
+#'  \item{A600}{optical density at A600 nm}
+#' }
+#' @examples
+#' \dontrun{
+#'  culture
+#' }
+"culture"
+
+
