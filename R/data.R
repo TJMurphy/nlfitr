@@ -48,3 +48,30 @@
 "decay2ex"
 
 
+#' Exponential growth of bacteria
+#' @source Murphy lab
+#' @format A dataframe with 3 A600 measurements per time point:
+#'  \describe{
+#'  \item{min}{Units of time, minutes}
+#'  \item{A600}{optical density at A600 nm}
+#' }
+#' @examples
+#' \dontrun{
+#'  culture
+#' }
+"culture"
+
+
+#' Gompertz model for growth curves
+#' @source simulated with simggro
+#' @format A dataframe:
+#'  \describe{
+#'  \item{hour}{Units of time, hour}
+#'  \item{lnN_N0}{l.plantarium growth measure}
+#' }
+#' @examples
+#' \dontrun{
+#'  plantdat
+#' }
+"plantdat"
+
