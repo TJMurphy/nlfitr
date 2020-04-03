@@ -62,3 +62,16 @@
 "culture"
 
 
+#' Gompertz model for growth curves
+#' @source simulated with simggro
+#' @format A dataframe:
+#'  \describe{
+#'  \item{hour}{Units of time, hour}
+#'  \item{lnN_N0}{l.plantarium growth measure}
+#' }
+#' @examples
+#' \dontrun{
+#'  plantdat
+#' }
+"plantdat"
+

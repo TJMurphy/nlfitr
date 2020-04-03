@@ -1,6 +1,6 @@
 #' Fit exponential growth data
 #'
-#' Fit the exponential growth function `y = ylo*exp(k*x)` model to data.
+#' Fit the exponential growth model `y = ylo*exp(k*x)` to data.
 #'
 #' @param x A vector of linear scale values, usually time.
 #' @param y A vector of measured values in response to x.
