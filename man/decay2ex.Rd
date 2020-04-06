@@ -5,10 +5,10 @@
 \alias{decay2ex}
 \title{Two phase decay example data}
 \format{A dataframe with 5 independent replicates:
- \describe{
- \item{Time}{Units of time, x.}
- \item{Response}{Response units, y.}
- \item{Replicate}{name of independent replicate.}
+\describe{
+\item{Time}{Units of time, x.}
+\item{Response}{Response units, y.}
+\item{Replicate}{name of independent replicate.}
 }}
 \source{
 simulated with simdecay2

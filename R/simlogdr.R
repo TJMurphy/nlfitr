@@ -1,6 +1,14 @@
 #' Simulate log dose-response data
 #'
-#' A sandbox to create and plot replicate response data with random normal error on a log scale. Enter a log scaled predictor variable and values for additional model parameter arguments. The nonlinear model formula is derived from the general hyperbolic stimulus-response function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen. Just re-simulate or modify parameters.
+#' A sandbox to create and plot replicate response data with random normal
+#' error on a log scale. Enter a log scaled predictor variable and values
+#' for additional model parameter arguments. The nonlinear model formula is
+#' derived from the general hyperbolic stimulus-response function:
+#' y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth
+#' fitting will occasionally happen. Just re-simulate or modify parameters.
+#' The data generating equation is:
+#' `y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)`
+#' The regression formula is: `y ~ ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))``
 #'
 #' @param x a vector of log scale values; usually log10 or log2 dose or concentration units.
 #' @param logk the value of x in log units that yields y/ymax = 0.5; usually logEC50 or logED50.

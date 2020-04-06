@@ -25,7 +25,14 @@ simlindr(x, k, ylo, yhi, h, sd, reps)
 ggplot, data
 }
 \description{
-A sandbox to create and plot replicate dose-response data with random normal error. Enter a linear scaled predictor variable and additional parameter arguments. Derived from the general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen. Just re-simulate or modify parameters.
+A sandbox to create and plot replicate dose-response data with random normal error.
+Enter a linear scaled predictor variable and additional parameter arguments.
+Derived from the general hyperbolic function: y/ymax=x^h/(x^h+k^h), where
+ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen.
+Just re-simulate or modify parameters.
+The data generating equation is:
+\code{y = ylo + (yhi - ylo)*x^h/(x^h + k^h) + rnorm(length(x), 0, sd)}
+The regression formula is `y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)``
 }
 \examples{
 

@@ -24,7 +24,7 @@ units of reciprocal x.}
 nls
 }
 \description{
-Fit the exponential growth model `y = ylo*exp(k*x)` to data.
+Fit the exponential growth model \code{y = ylo*exp(k*x)} to data.
 }
 \examples{
 #bacterial growth
