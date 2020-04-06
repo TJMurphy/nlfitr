@@ -46,7 +46,7 @@ time <- c(1, 5, 10, 15, 20, 25) # eg, in mins
 
 set.seed(2345)
 
-decay1dat <- simdecay1(time, k = 0.15, ylo = 1, yhi = 100, cv = 0.10, reps = 5)
+decay1dat <- simhetdecay1(time, k = 0.15, ylo = 1, yhi = 100, cv = 0.10, reps = 5)
 
 
 decay1dat$data

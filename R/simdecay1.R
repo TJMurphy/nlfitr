@@ -1,14 +1,13 @@
 #' Simulate one phase exponential decay data
 #'
-#' A sandbox to simulate and visualize random normal heteroscedastic data
-#' for a nonlinear decaying response. Variances enlarge with the value of
-#' y predicted by the model using a constant coefficeint of variation (cv).
-#' The data generating formula is derived from the general model:
-#' "y = y0*e^-kx". This model simulates response systems where the rate at
-#' which the response decreases is proportional to the level of remaining response.
+#' A sandbox to simulate and visualize random normal data
+#' for a nonlinear decaying response. The data generating formula
+#' is derived from the general model: "y = y0*e^-kx". This model
+#' simulates response systems where the rate at which the response
+#' decreases is proportional to the level of remaining response.
 #' Failure errors can happen in the plot fitting subfunction even though random
-#' data is produced. These are more frequent with higher cv values. Just
-#' re-simulate with modified parameter values.
+#' data is produced. These may be more frequent with higher sd values and/or
+#' lower range or replicates. Just re-simulate with modified parameter values.
 #' The regression formula is: `y ~ (yhi-ylo)*exp(-1*k*x) + ylo`
 #'
 #' @param x a vector of non-exponential linear scale values representing time.
@@ -18,7 +17,7 @@
 #' expressed in the same units as Y.
 #' @param yhi the highest expected y value, or the starting value,
 #' expressed in the same units as Y.
-#' @param cv the coefficient of variation for y replicates.
+#' @param sd the standard deviation in y.
 #' @param reps an integer value for number of replicates
 #'
 #' @return ggplot, data
@@ -33,21 +32,19 @@
 #'
 #' set.seed(2345)
 #'
-#' decay1dat <- simdecay1(time, k = 0.15, ylo = 1, yhi = 100, cv = 0.10, reps = 5)
+#' decayOnedat <- simdecay1(time, k=0.15, ylo=1, yhi=100, sd = 10, reps=5)
 #'
 #'
-#' decay1dat$data
+#' decayOnedat$data
 #'
 #'
-simdecay1 <- function(x, k, ylo, yhi, cv, reps) {
+simdecay1 <- function(x, k, ylo, yhi, sd, reps) {
 
-  yp <- (yhi-ylo)*exp(-1*k*x) + ylo
-
-  values <- data.frame(x=rep(x, reps), yp)
-
+  values <- data.frame(x=rep(x, reps))
   y <- c()
 
-  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
+  values <- dplyr::mutate(values, y = (yhi-ylo)*exp(-1*k*x) + ylo +
+                            stats::rnorm(length(x), 0, sd))
 
   ggplot2::ggplot(values,
                   ggplot2::aes(x, y)) +

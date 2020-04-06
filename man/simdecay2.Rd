@@ -4,7 +4,7 @@
 \alias{simdecay2}
 \title{Simulate two phase exponential decay data}
 \usage{
-simdecay2(x, k1, k2, range1, range2, ylo, cv, reps)
+simdecay2(x, k1, k2, range1, range2, ylo, sd, reps)
 }
 \arguments{
 \item{x}{a vector of non-exponential linear scale values representing time.}
@@ -22,7 +22,7 @@ The second half-life is 0.6932/k2.}
 \item{ylo}{the lowest expected y value, or the value at infinite times, expressed
 in the same units as Y.}
 
-\item{cv}{the coefficient of variation for y replicates.}
+\item{sd}{the coefficient of variation for y replicates.}
 
 \item{reps}{an integer value for number of replicates}
 }
@@ -30,14 +30,15 @@ in the same units as Y.}
 ggplot, data
 }
 \description{
-A sandbox to simulate and visualize random normal heteroscedastic response data.
-Variances enlarge with the value of y predicted by the model using a constant
-coefficeint of variation (cv). The data generating formula is derived from the
-general model: "y = y0*e^-(k1+k2)x". A two-phase model is used when the outcome
-you measure is the result of the sum of a fast and slow exponential decay.
-This is also called a double exponential decay.Failure errors in the plot
-fitting subfunction will occasionally happen due to the random data. These are
-more frequent with higher cv values. Just re-simulate with modified parameter values.
+A sandbox to simulate and visualize random normal nonlinear response data
+for a system that decays in two phases. The data generating formula is
+derived from the general model: \code{y = y0*e^-((k1+k2)*x)}. A two-phase model
+is used when the outcome you measure is the result of the sum of a fast and
+slow exponential decay. This is also called a double exponential decay.
+Failure errors in the plot fitting subfunction will happen with some
+freqeuncy due to the random data. These warnings are a useful sign. They
+are more frequent with fewer time points, higher sd, and lower replicates. J
+ust re-simulate with modified parameter values.
 The regression formula is: \code{y ~ range1*exp(-k1*x) + range2*exp(-k2*x) + ylo}
 }
 \examples{
@@ -45,16 +46,15 @@ The regression formula is: \code{y ~ range1*exp(-k1*x) + range2*exp(-k2*x) + ylo
 # Note: exponential or log-transformed x scale values will not work
 # do not use x = c(1e-9, 3e-9, ...) or c(-9, -8.523, ...)
 
-time <- c(1, 5, 10, 15, 20, 25) # eg, in mins
+time <- c(1,2,3,4, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25) # eg, in mins
 
-set.seed(2345)
+set.seed(2346)
 
-decay2dat <- simdecay2(time, k1 = 0.5, k2 = 0.2, range1 = 2, range2 = 10,
-ylo = 1.0, cv = 0.10, reps = 5)
+decayTwodat <- simdecay2(time, k1=0.23, k2=0.05, range1=10, range2=85, ylo=1, sd=2, reps=5)
 
-decay2dat
+decayTwodat
 
-decay2dat$data
+decayTwodat$data
 
 
 }
