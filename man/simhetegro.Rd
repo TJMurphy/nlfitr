@@ -28,11 +28,13 @@ ggplot, data
 A sandbox to simulate heteroscedastic exponential growth data.
 Random normal variance enlarges with the model value of y using
 a constant coefficeint of variation (cv). The data generating
-model is an exponential growth function: `yp=ylo*exp(k*x)`.
-The simulated value is then `y=rnorm(1, yp, cv*yp)`.
+model is an exponential growth function: \code{yp = ylo*exp(k*x)}.
+The random value is then produced by applying the following to a
+dataframe of yp values: \code{y = rnorm(1, yp, cv*yp)}.
 The plot fitting subfunction will occasionally fail due to random
 data. These may occur with higher cv values, fewer reps, and
 fewer x values. Just re-simulate with modified parameter values.
+The regression formula is \code{y ~ ylo*exp(k*x)}.
 }
 \examples{
 

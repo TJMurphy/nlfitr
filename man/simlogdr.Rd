@@ -25,7 +25,15 @@ simlogdr(x, logk, ylo, yhi, h, sd, reps)
 ggplot, data
 }
 \description{
-A sandbox to create and plot replicate response data with random normal error on a log scale. Enter a log scaled predictor variable and values for additional model parameter arguments. The nonlinear model formula is derived from the general hyperbolic stimulus-response function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth fitting will occasionally happen. Just re-simulate or modify parameters.
+A sandbox to create and plot replicate response data with random normal
+error on a log scale. Enter a log scaled predictor variable and values
+for additional model parameter arguments. The nonlinear model formula is
+derived from the general hyperbolic stimulus-response function:
+y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth
+fitting will occasionally happen. Just re-simulate or modify parameters.
+The data generating equation is:
+\code{y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)}
+The regression formula is: `y ~ ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))``
 }
 \examples{
 
