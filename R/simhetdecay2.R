@@ -42,7 +42,7 @@
 #' decay2dat$data
 #'
 #'
-simdecay2 <- function(x, k1, k2, range1, range2, ylo, cv, reps) {
+simhetdecay2 <- function(x, k1, k2, range1, range2, ylo, cv, reps) {
 
   yp <- range1*exp(-k1*x) + range2*exp(-k2*x) + ylo
 
@@ -60,4 +60,4 @@ simdecay2 <- function(x, k1, k2, range1, range2, ylo, cv, reps) {
       method=minpack.lm::nlsLM,
       formula = "y ~range1*exp(-k1*x) + range2*exp(-k2*x) + ylo",
       method.args = list(start=c(range1=range1, range2=range2, k1=k1, k2=k2, ylo=ylo)), se=F, color="blue")
-  }
+}

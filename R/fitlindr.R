@@ -4,6 +4,7 @@
 #' model formula to nonlinear response data. The formula is based upon the
 #' general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
 #' k, ylo, yhi and h are start list parameters for nlsLM.
+#' The regression formula is `y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)`
 #'
 #'
 #' @param x a vector of linear scale values, usually dose or concentration.

@@ -5,9 +5,9 @@
 \alias{plantdat}
 \title{Gompertz model for growth curves}
 \format{A dataframe:
- \describe{
- \item{hour}{Units of time, hour}
- \item{lnN_N0}{l.plantarium growth measure}
+\describe{
+\item{hour}{Units of time, hour}
+\item{lnN_N0}{l.plantarium growth measure}
 }}
 \source{
 simulated with simggro

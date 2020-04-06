@@ -26,11 +26,13 @@ ine in the growth phase.}
 ggplot, data
 }
 \description{
-This is a sandbox to simulate a growth process, beginning with a
+A sandbox to simulate a growth process, beginning with a
 low initial lag period, through an exponential growth phase,
-to a higher final maximal asymptope. The function is based
-upon the Gompertz model, using the formula:
-`y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1)) + rnorm(length(x), 0, sd)`.
+to a higher final maximal asymptote. The function is based
+upon the Gompertz growth model. Random values for y are created using the equation:
+\code{y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1)) + rnorm(length(x), 0, sd)}.
+The regression formula is:
+\code{y ~  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x) + 1))}.
 }
 \examples{
 

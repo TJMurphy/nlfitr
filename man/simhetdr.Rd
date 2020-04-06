@@ -29,7 +29,13 @@ simhetdr(x, k, ylo, yhi, h, cv, reps, weight = F, log = F)
 ggplot, data
 }
 \description{
-A sandbox to simulate and visualize random normal heteroscedastic response data. Variances enlarge with the value of y predicted by the model using a constant coefficeint of variation (cv). The data generating formula is derived from the general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot  fitting subfunction will occasionally happen due to the random data. These are more frequent with higher cv values. Just re-simulate with modified parameter values.
+A sandbox to simulate and visualize random normal heteroscedastic response data.
+Variances enlarge with the value of y predicted by the model using a constant
+coefficeint of variation (cv). The data generating formula is derived from the
+general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot
+fitting subfunction will occasionally happen due to the random data. These are
+more frequent with higher cv values. Just re-simulate with modified parameter values.
+The regression formula is \code{y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)}
 }
 \examples{
 

@@ -39,7 +39,7 @@
 #' decay1dat$data
 #'
 #'
-simdecay1 <- function(x, k, ylo, yhi, cv, reps) {
+simhetdecay1 <- function(x, k, ylo, yhi, cv, reps) {
 
   yp <- (yhi-ylo)*exp(-1*k*x) + ylo
 
@@ -57,5 +57,4 @@ simdecay1 <- function(x, k, ylo, yhi, cv, reps) {
       method=minpack.lm::nlsLM,
       formula = "y ~(yhi-ylo)*exp(-1*k*x) + ylo",
       method.args = list(start=c(yhi=yhi, ylo = ylo, k=k)), se=F, color="blue")
-  }
-
+}
