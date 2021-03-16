@@ -35,7 +35,7 @@ coefficeint of variation (cv). The data generating formula is derived from the
 general hyperbolic model: y/ymax=x^h/(x^h+k^h). Failure errors in the plot
 fitting subfunction will occasionally happen due to the random data. These are
 more frequent with higher cv values. Just re-simulate with modified parameter values.
-The regression formula is \code{y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)}
+The regression formula is `y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)`
 }
 \examples{
 

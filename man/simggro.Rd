@@ -30,9 +30,9 @@ A sandbox to simulate a growth process, beginning with a
 low initial lag period, through an exponential growth phase,
 to a higher final maximal asymptote. The function is based
 upon the Gompertz growth model. Random values for y are created using the equation:
-\code{y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1)) + rnorm(length(x), 0, sd)}.
+`y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1)) + rnorm(length(x), 0, sd)`.
 The regression formula is:
-\code{y ~  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x) + 1))}.
+`y ~  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x) + 1))`.
 }
 \examples{
 

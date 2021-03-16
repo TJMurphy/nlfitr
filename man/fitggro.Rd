@@ -29,7 +29,7 @@ nls
 }
 \description{
 Fit the Gompertz growth model to date:
-\code{y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1))}
+`y =  ylo + d*exp(-exp(((k*exp(1))/d)*(lambda-x)+1))`
 }
 \examples{
 

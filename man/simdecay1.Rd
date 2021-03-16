@@ -34,7 +34,7 @@ decreases is proportional to the level of remaining response.
 Failure errors can happen in the plot fitting subfunction even though random
 data is produced. These may be more frequent with higher sd values and/or
 lower range or replicates. Just re-simulate with modified parameter values.
-The regression formula is: \code{y ~ (yhi-ylo)*exp(-1*k*x) + ylo}
+The regression formula is: `y ~ (yhi-ylo)*exp(-1*k*x) + ylo`
 }
 \examples{
 

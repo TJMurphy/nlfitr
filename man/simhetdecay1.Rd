@@ -35,7 +35,7 @@ which the response decreases is proportional to the level of remaining response.
 Failure errors can happen in the plot fitting subfunction even though random
 data is produced. These are more frequent with higher cv values. Just
 re-simulate with modified parameter values.
-The regression formula is: \code{y ~ (yhi-ylo)*exp(-1*k*x) + ylo}
+The regression formula is: `y ~ (yhi-ylo)*exp(-1*k*x) + ylo`
 }
 \examples{
 
