@@ -4,11 +4,13 @@
 \name{culture}
 \alias{culture}
 \title{Exponential growth of bacteria}
-\format{A dataframe with 3 A600 measurements per time point:
+\format{
+A dataframe with 3 A600 measurements per time point:
  \describe{
  \item{min}{Units of time, minutes}
  \item{A600}{optical density at A600 nm}
-}}
+}
+}
 \source{
 Murphy lab
 }

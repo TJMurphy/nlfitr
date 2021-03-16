@@ -4,12 +4,14 @@
 \name{decay1ex}
 \alias{decay1ex}
 \title{One phase decay example data}
-\format{A dataframe with 5 independent replicates:
+\format{
+A dataframe with 5 independent replicates:
  \describe{
  \item{Time}{Units of time, x.}
  \item{Response}{Response units, y.}
  \item{Replicate}{name of independent replicate.}
-}}
+}
+}
 \source{
 simulated with simdecay1
 }

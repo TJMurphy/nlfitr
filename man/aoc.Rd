@@ -4,7 +4,8 @@
 \name{aoc}
 \alias{aoc}
 \title{Contraction of mouse aorta in response to phenylephrine}
-\format{A dataframe with 5 independent replicates:
+\format{
+A dataframe with 5 independent replicates:
  \describe{
  \item{nM_PE}{Doses of phenylephrine applied, in nM units.}
  \item{replicate}{name of independent replicate.}
@@ -12,7 +13,8 @@
  \item{M_PE}{Doses of phenylephrine applied, in M units.}
  \item{logM_PE}{Doses of phenylephrine applied, in log10 M units.}
  \item{lognM_PE}{Doses of phenylephrine applied, in log10 nM units.}
-}}
+}
+}
 \source{
 Murphy lab
 }
