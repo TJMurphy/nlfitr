@@ -3,11 +3,13 @@
 #' A sandbox to simulate heteroscedastic exponential growth data.
 #' Random normal variance enlarges with the model value of y using
 #' a constant coefficeint of variation (cv). The data generating
-#' model is an exponential growth function: `yp=ylo*exp(k*x)`.
-#' The simulated value is then `y=rnorm(1, yp, cv*yp)`.
+#' model is an exponential growth function: `yp = ylo*exp(k*x)`.
+#' The random value is then produced by applying the following to a
+#' dataframe of yp values: `y = rnorm(1, yp, cv*yp)`.
 #' The plot fitting subfunction will occasionally fail due to random
 #' data. These may occur with higher cv values, fewer reps, and
 #' fewer x values. Just re-simulate with modified parameter values.
+#' The regression formula is `y ~ ylo*exp(k*x)`.
 #'
 #' @param x A vector of linear scale values.
 #' @param k A starting estimate for the rate constant, which has

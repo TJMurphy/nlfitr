@@ -1,6 +1,7 @@
 #' Fit one phase exponential decay data.
 #'
 #' Based on the one phase exponential decay model `y=range*exp(-k*x)` where range = yhi-ylo.
+#' The regression formula is: `y ~ (yhi-ylo)*exp(-1*k*x) + ylo``
 #'
 #' @param x is a vector of non-exponential linear scale values, usually representing time.
 #' @param y is a vector of y values for x, usually responses.

@@ -4,7 +4,8 @@
 #' formula to nonlinear response data. The formula is based upon the general
 #' hyperbolic function y= ymax/(1+10^((logk-x)*h)), where ymax = yhi - ylo.
 #' Both x and logk are in base 10 log scale units. logk, ylo, yhi and h are
-#' start list parameters #' for nlsLM.
+#' start list parameters #' for nlsLM. The formula is: `y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))`
+#'
 #'
 #' @param x a vector of base 10 log scale values, usually dose or concentration.
 #' @param y a vector of y values for x, usually responses.

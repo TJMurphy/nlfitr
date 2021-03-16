@@ -1,14 +1,13 @@
 #' Simulate two phase exponential decay data
 #'
-#' A sandbox to simulate and visualize random normal nonlinear response data
-#' for a system that decays in two phases. The data generating formula is
-#' derived from the general model: `y = y0*e^-((k1+k2)*x)`. A two-phase model
-#' is used when the outcome you measure is the result of the sum of a fast and
-#' slow exponential decay. This is also called a double exponential decay.
-#' Failure errors in the plot fitting subfunction will happen with some
-#' freqeuncy due to the random data. These warnings are a useful sign. They
-#' are more frequent with fewer time points, higher sd, and lower replicates. J
-#' ust re-simulate with modified parameter values.
+#' A sandbox to simulate and visualize random normal heteroscedastic response data.
+#' Variances enlarge with the value of y predicted by the model using a constant
+#' coefficeint of variation (cv). The data generating formula is derived from the
+#' general model: "y = y0*e^-(k1+k2)x". A two-phase model is used when the outcome
+#' you measure is the result of the sum of a fast and slow exponential decay.
+#' This is also called a double exponential decay.Failure errors in the plot
+#' fitting subfunction will occasionally happen due to the random data. These are
+#' more frequent with higher cv values. Just re-simulate with modified parameter values.
 #' The regression formula is: `y ~ range1*exp(-k1*x) + range2*exp(-k2*x) + ylo`
 #'
 #' @param x a vector of non-exponential linear scale values representing time.
@@ -20,7 +19,7 @@
 #' @param range2 a single value for the range of y in the second phase of decay, in y units..
 #' @param ylo the lowest expected y value, or the value at infinite times, expressed
 #' in the same units as Y.
-#' @param sd the coefficient of variation for y replicates.
+#' @param cv the coefficient of variation for y replicates.
 #' @param reps an integer value for number of replicates
 #'
 #' @return ggplot, data
@@ -31,25 +30,27 @@
 #' # Note: exponential or log-transformed x scale values will not work
 #' # do not use x = c(1e-9, 3e-9, ...) or c(-9, -8.523, ...)
 #'
-#' time <- c(1,2,3,4, 5, 7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25) # eg, in mins
+#' time <- c(1, 5, 10, 15, 20, 25) # eg, in mins
 #'
-#' set.seed(2346)
+#' set.seed(2345)
 #'
-#' decayTwodat <- simdecay2(time, k1=0.23, k2=0.05, range1=10, range2=85, ylo=1, sd=2, reps=5)
+#' decay2dat <- simhetdecay2(time, k1 = 0.5, k2 = 0.2, range1 = 2, range2 = 10,
+#' ylo = 1.0, cv = 0.10, reps = 5)
 #'
-#' decayTwodat
+#' decay2dat
 #'
-#' decayTwodat$data
+#' decay2dat$data
 #'
 #'
-simdecay2 <- function(x, k1, k2, range1, range2, ylo, sd, reps) {
+simhetdecay2 <- function(x, k1, k2, range1, range2, ylo, cv, reps) {
 
-  values <- data.frame(x=rep(x, reps))
+  yp <- range1*exp(-k1*x) + range2*exp(-k2*x) + ylo
+
+  values <- data.frame(x=rep(x, reps), yp)
+
   y <- c()
 
-  values <- dplyr::mutate(values, y= range1*exp(-k1*x) +
-                            range2*exp(-k2*x) + ylo  +
-                            stats::rnorm(length(x), 0, sd))
+  values <- dplyr::mutate(values, y=apply(values, 1, function(x) stats::rnorm(1, x[2], cv*x[2])))
 
   ggplot2::ggplot(values,
                   ggplot2::aes(x, y)) +
@@ -59,4 +60,4 @@ simdecay2 <- function(x, k1, k2, range1, range2, ylo, sd, reps) {
       method=minpack.lm::nlsLM,
       formula = "y ~range1*exp(-k1*x) + range2*exp(-k2*x) + ylo",
       method.args = list(start=c(range1=range1, range2=range2, k1=k1, k2=k2, ylo=ylo)), se=F, color="blue")
-  }
+}

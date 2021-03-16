@@ -3,9 +3,9 @@
 #' A sandbox to simulate exponential growth with random normal error.
 #' Enter a linear scale predictor variable, x, with arguments for rate
 #' constant, k, and initial starting value of response, ylo. Include an
-#' estimate for the standard deviation, sd, in y.  Values for y and
-#' best fit curve are based upon an exponential growth function:
-#' `y ~ ylo*exp(k*x) + rnorm(length(x), 0, sd)`.
+#' estimate for the standard deviation, sd, in y.  Random values for y are
+#' simulated by: #' `y = ylo*exp(k*x) + rnorm(length(x), 0, sd)`.
+#' The regression formula is: `y ~ ylo*exp(k*x)``
 #'
 #'
 #' @param x A vector of linear scale values, such as time..
