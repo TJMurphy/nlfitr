@@ -42,7 +42,7 @@
 #'
 #'
 #'
-simlindr <- function(x, k, ylo, yhi, h, sd, reps) {
+simlindr <- function(x, k, ylo,  yhi, h, sd, reps) {
 
   values <- data.frame(x=rep(x,reps))
   y <- c()
