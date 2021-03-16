@@ -31,7 +31,7 @@ fitlindr uses the nlsLM function from the minpack.lm package to fit a
 model formula to nonlinear response data. The formula is based upon the
 general hyperbolic function: y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo.
 k, ylo, yhi and h are start list parameters for nlsLM.
-The regression formula is \code{y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)}
+The regression formula is `y ~ ylo + (yhi - ylo)*x^h/(x^h + k^h)`
 }
 \examples{
 ## aorta contraction by phenylephrine doses

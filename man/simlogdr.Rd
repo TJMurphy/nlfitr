@@ -32,7 +32,7 @@ derived from the general hyperbolic stimulus-response function:
 y/ymax=x^h/(x^h+k^h), where ymax = yhi - ylo. Errors in geom_smooth
 fitting will occasionally happen. Just re-simulate or modify parameters.
 The data generating equation is:
-\code{y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)}
+`y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h)) + rnorm(length(x), 0, sd)`
 The regression formula is: `y ~ ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))``
 }
 \examples{

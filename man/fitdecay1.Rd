@@ -28,8 +28,8 @@ expressed in the same units as Y.}
 nls
 }
 \description{
-Based on the one phase exponential decay model \code{y=range*exp(-k*x)} where range = yhi-ylo.
-The regression formula is: `y ~ (yhi-ylo)\emph{exp(-1}k*x) + ylo``
+Based on the one phase exponential decay model `y=range*exp(-k*x)` where range = yhi-ylo.
+The regression formula is: `y ~ (yhi-ylo)*exp(-1*k*x) + ylo``
 }
 \examples{
 # fitdecay1(x=Time, y=Response, data=decay1ex, k=0.2, ylo=1, yhi=100, weigh=T)

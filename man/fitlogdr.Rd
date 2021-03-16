@@ -31,7 +31,7 @@ fitlogdr uses the nlsLM function of the minpack.lm package to fit a model
 formula to nonlinear response data. The formula is based upon the general
 hyperbolic function y= ymax/(1+10^((logk-x)*h)), where ymax = yhi - ylo.
 Both x and logk are in base 10 log scale units. logk, ylo, yhi and h are
-start list parameters #' for nlsLM. The formula is: \code{y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))}
+start list parameters #' for nlsLM. The formula is: `y = ylo + (yhi - ylo)/(1 + 10^((logk - x)*h))`
 }
 \examples{
 # aorta contraction by phenylephrine doses

@@ -26,8 +26,8 @@ A sandbox to simulate exponential growth with random normal error.
 Enter a linear scale predictor variable, x, with arguments for rate
 constant, k, and initial starting value of response, ylo. Include an
 estimate for the standard deviation, sd, in y.  Random values for y are
-simulated by: #' \code{y = ylo*exp(k*x) + rnorm(length(x), 0, sd)}.
-The regression formula is: `y ~ ylo\emph{exp(k}x)``
+simulated by: #' `y = ylo*exp(k*x) + rnorm(length(x), 0, sd)`.
+The regression formula is: `y ~ ylo*exp(k*x)``
 }
 \examples{
 # x is time in minutes

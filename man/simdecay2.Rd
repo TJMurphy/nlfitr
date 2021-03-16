@@ -32,14 +32,14 @@ ggplot, data
 \description{
 A sandbox to simulate and visualize random normal nonlinear response data
 for a system that decays in two phases. The data generating formula is
-derived from the general model: \code{y = y0*e^-((k1+k2)*x)}. A two-phase model
+derived from the general model: `y = y0*e^-((k1+k2)*x)`. A two-phase model
 is used when the outcome you measure is the result of the sum of a fast and
 slow exponential decay. This is also called a double exponential decay.
 Failure errors in the plot fitting subfunction will happen with some
 freqeuncy due to the random data. These warnings are a useful sign. They
 are more frequent with fewer time points, higher sd, and lower replicates. J
 ust re-simulate with modified parameter values.
-The regression formula is: \code{y ~ range1*exp(-k1*x) + range2*exp(-k2*x) + ylo}
+The regression formula is: `y ~ range1*exp(-k1*x) + range2*exp(-k2*x) + ylo`
 }
 \examples{
 

@@ -32,8 +32,8 @@ expressed in the same units as Y.}
 nls
 }
 \description{
-Based on a two phase exponential decay model \code{y=range1*exp(-k1*x)+range2*exp(-k2*x)}
-The fitting formula is: \code{y ~range1*exp(-k1*x) + range2*exp(-k2*x) + ylo}
+Based on a two phase exponential decay model `y=range1*exp(-k1*x)+range2*exp(-k2*x)`
+The fitting formula is: `y ~range1*exp(-k1*x) + range2*exp(-k2*x) + ylo`
 }
 \examples{
 # fitdecay2(x=Time, y=Response, data=decay2ex, k1 = 1.5, k2 = 0.2,
